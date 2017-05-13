@@ -1,0 +1,36 @@
+var _$base = '${base}';
+var require = {
+	  baseUrl: _$base+'/res/',
+	  locale: 'zh-cn',
+	  waitSeconds: 15,
+	  map: {
+	      '*': {'css': 'plugin/require/require-css.0.1.8.min'}
+	  },
+	  paths: {
+		    jquery: 'plugin/jquery/jquery-2.1.4.min',
+		    cookie: 'plugin/jquery/jquery.cookie-1.4.1.min',
+		    easyui: 'plugin/easyui/easyui.min',
+		    bootstrap: 'plugin/bootstrap/dist/js/bootstrap.min',
+		    form: 'plugin/jquery/jquery.form-3.51.0.min',
+		    cryptico: 'plugin/cryptico/cryptico.min',
+		    
+		    ol: 'plugin/openlayer/ol',
+		    olkit: 'js/gis/openlayers-kit',
+		    
+		    ztree_core: 'plugin/ztree/3.5.19/jquery.ztree.core',
+		    ztree_excheck: 'plugin/ztree/3.5.19/jquery.ztree.excheck'
+	  },
+	  
+	  shim: {
+		    'cookie': {deps: ['jquery']},
+		    'easyui': {deps: ['jquery']},
+		    'bootstrap': {deps: ['jquery']},
+		    'form': {deps: ['jquery']},
+		    
+		    'ol': {deps: ['css!./plugin/openlayer/ol.css']},
+		    'olkit': {deps: ['ol']},
+		    
+		    'ztree_core': {deps: ['jquery', 'css!./plugin/ztree/3.5.19/zTreeStyle.css']},
+		    ' ztree_excheck':  {deps: ['jquery']}
+	  }
+};

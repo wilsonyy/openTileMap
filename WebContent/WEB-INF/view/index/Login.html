@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 让IE/chrome以最新引擎启动 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<!-- 移动设备 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 360浏览器极速模式 -->
+<meta name="renderer" content="webkit"/>
+<!-- 说明生成工具 -->
+<meta name="generator" content="eclipse neon"/>
+<!-- 说明关键词 -->
+<meta name="keywords" content="gis,GIS,tile,瓦片,download,下载"/>
+<!-- 描述 -->
+<meta name="description" content="该系统用于下载各种地图网站下的瓦片以供离线使用"/>
+<!-- 作者 -->
+<meta name="author" content="Wilson">
+<!-- 是否可被检索 -->
+<meta name="robots" content="all">
+
+<title>门户瓦片地图下载系统</title>
+
+<link rel="stylesheet" type="text/css" href="${base}/res/plugin/bootstrap/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/plugin/bootstrap/dist/css/signin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/plugin/bootstrap/dist/css/sticky-footer.css" />
+
+</head>
+
+<body>
+  <div class="container">
+
+      <div class="form-signin">
+        <h2 class="form-signin-heading">请登录</h2>
+        <input id="input-account" type="text" class="form-control" placeholder="您的账号" required autofocus>
+        <input id="input-password" type="password" class="form-control" placeholder="您的密码" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> 记住账号
+          </label>
+        </div>
+        <button id="btn-login" class="btn btn-lg btn-primary btn-block">登陆</button>
+        <button id="btn-register" class="btn btn-lg btn-primary btn-block">注册</button>
+      </div>
+
+  </div>
+  
+  <footer class="footer">
+	<div style="line-height:28px;text-align:center;cursor:default">
+      <a href="#" target="_blank" style="text-decoration:none;">
+     	<div class="text-muted">Wilson个人开发</div>
+      </a>
+    </div>
+  </footer>
+
+<script src="${base}/com/base"></script>
+<script src="${base}/res/plugin/require/require.js"></script>
+
+<script>
+require([
+         'jquery',
+         '${base}/res/plugin/cryptico/jsencrypt.min.js'
+         ], function($,jsencrypt) {
+	var pubKey = '${rsa_public_key}'; //公钥
+	
+	//登陆按钮
+	$('#btn-login').on('click',function(){
+		var account = $('#input-account').val();
+		var password = $('#input-password').val();
+		if(account && password){
+			var encrypt = new jsencrypt.JSEncrypt();
+		    encrypt.setPublicKey(pubKey);
+		    var encrypted = encrypt.encrypt(password);
+			$.ajax({
+				type:"get",
+				url: '${base}/login/login',
+				data: {account:account,password:encrypted},
+				async:true,
+				dataType: 'json',
+				success: function(rs){
+					if(rs.code=='true') window.history.go(-1);
+					else alert(rs.msg);
+				},
+				error:function(XMLResponse,a,b){
+					alert(XMLResponse.responseText);
+				}
+			});
+		}
+	});
+});
+</script>
+
+</body>
+</html>
